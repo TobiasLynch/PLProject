@@ -98,17 +98,40 @@ let multMatrixByScalar(manager: MatrixManager) : unit =
     printf "Enter the matrix index:> "
 
     try
-        // get input
+        //Get input
         let id : int = System.Int32.Parse(Console.ReadLine().Trim())
 
         printf "Enter the scalar value:> "
 
-        // get input
+        //Get input
         let scalar: double = System.Double.Parse(Console.ReadLine().Trim())
 
         printfn "%s" (manager.ScalarMult(id, scalar).ToString())
     with
     | :? FormatException -> printfn "Please input a valid input\n"
+    | :? InvalidOperationException as ex -> printfn "%s\n" ex.Message
+
+/// <summary>
+/// Author: Tobias Lynch
+/// Description: This function handles the menu option for multiplying matrices, prompting for the matrix indices
+/// and printing out the result.
+/// </summary>
+/// <param name="manager">The matrix manager.</param>
+let multMatricies(manager: MatrixManager) : unit =
+    printf "Enter the first matrix id:> "
+
+    try
+        //Get input
+        let idx1: int = System.Int32.Parse(Console.ReadLine().Trim())
+        
+        printf "Enter the second matrix id:> "
+
+        //Get input
+        let idx2: int = System.Int32.Parse(Console.ReadLine().Trim())
+
+        printfn "%s" (manager.MatrixMult(idx1, idx2).ToString())
+    with
+    | :? FormatException -> printfn "Please input a valid integer\n"
     | :? InvalidOperationException as ex -> printfn "%s\n" ex.Message
 
 
@@ -150,6 +173,7 @@ let main args =
             | 2 -> printMatrix(manager)
             | 3 -> manager.PrintMatrices()
             | 4 -> addMatrices(manager)
+            | 6 -> multMatricies(manager)
             | 7 -> multMatrixByScalar(manager)
             | _ -> printfn "Please select a valid menu option.\n"
 

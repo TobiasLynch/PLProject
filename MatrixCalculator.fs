@@ -25,6 +25,7 @@ type MatrixCalculator =
         // return result
         result
 
+
     /// <summary>
     /// Author: Tobias Lynch
     /// Description: This function multiplies a matrix by a scalar, returning the result.
@@ -36,18 +37,47 @@ type MatrixCalculator =
         //Store result
         let result: Matrix = new Matrix(matrix.Rows,matrix.Cols)
         //Transform input matrix to array for easier parallelization
+        let tempArr: double array = matrix.ToArray()
         
-        let tempArr = matrix.ToArray()
-        
-        let arr = tempArr |> Array.Parallel.map(fun x -> x * scalar)
+        //Multiply each value in the array by the scalar
+        let arr: double array = tempArr |> Array.Parallel.map(fun x -> x * scalar)
 
-        //For value in the array, multiply by the scalar
+        //Old, serial version of the function
         (*for i = 0 to matrix.Rows - 1 do
             for j = 0 to matrix.Cols - 1 do
                 result.Values[i,j] <- matrix.Values[i,j] * scalar*)
                 
         //Store back to matrix
         result.SetValues(arr)
+
+        //Return result
+        result
+
+    /// <summary>
+    /// Author: Tobias Lynch
+    /// Description: This function multiplies one matrix by another, returning the result.
+    /// </summary>
+    /// <param name="left">The left matrix to multiply.</param>
+    /// <param name="right">The right matrix to multiply.</param>
+    /// <returns>The resulting matrix.</returns>
+    static member MatrixMult(left: Matrix, right: Matrix): Matrix =
+        //Verify that multiplication is possible
+        if left.Cols <> right.Rows then
+            raise (System.InvalidOperationException "The columns of the first matrix did not match the rows of the second, so they cannot be multiplied")
+        
+        let result: Matrix = new Matrix(left.Rows, right.Cols)
+
+        for i = 0 to result.Rows - 1 do
+            for j = 0 to result.Cols - 1 do
+                //Get corresponding row and column
+                let leftRow: double array = left.GetRow(i)
+                let rightCol: double array = right.GetCol(j)
+                //Multiply the corresponding elements of each array together
+                let multArr: double array = Array.zip leftRow rightCol |> Array.Parallel.map(fun (x,y) -> x * y)
+                //Reduce the array to one element
+                let singleVal: double = multArr |> Array.reduce(fun a b -> a + b)
+                //Set the position
+                result.SetPos(i,j, singleVal)
 
         //Return result
         result

@@ -95,3 +95,24 @@ type MatrixManager() =
 
         //Return result
         result
+    
+    /// <summary>
+    /// Author: Tobias Lynch
+    /// Description: This function multiplies a given matrix by another given matrix and stores the result.
+    /// </summary>
+    /// <param name="idx1">The index of the first matrix to be multiplied.</param>
+    /// <param name="idx2">The index of the second matrix to be multiplied.</param>
+    /// <returns>The resulting matrix.</returns>
+    member this.MatrixMult(idx1: int, idx2: int): Matrix =
+        //Check matricies exist
+        if (Array.length matrices) <= idx1 || (Array.length matrices) <= idx2 then
+            raise (System.InvalidOperationException "Cannot add the two matices because at least one does not exist")
+
+        //Perform operation
+        let result: Matrix = MatrixCalculator.MatrixMult(matrices[idx1], matrices[idx2])
+
+        //Store result
+        matrices <- Array.append matrices [|result|]
+
+        //Return result
+        result
