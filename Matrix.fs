@@ -35,6 +35,14 @@ type Matrix(rows : int, cols : int) =
                 result <- $"{result}{values.[i, j].ToString().PadLeft(8)} "
             result <- $"{result}|\n"
         result
+
+    //Private function to 
+    member this.ToArray() =
+        let arr: double array = Array.create (rows * cols) 0.0
+        for i = 0 to rows - 1 do
+            for j = 0 to cols - 1 do
+                arr[i * cols + j] <- values[i, j]
+        arr
     
     // public property to get values
     member this.Values

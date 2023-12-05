@@ -35,11 +35,19 @@ type MatrixCalculator =
     static member ScalarMult(matrix: Matrix, scalar: double): Matrix =
         //Store result
         let result: Matrix = new Matrix(matrix.Rows,matrix.Cols)
+        //Transform input matrix to array for easier parallelization
         
+        let tempArr = matrix.ToArray()
+        
+        let arr = tempArr |> Array.Parallel.map(fun x -> x * scalar)
+
         //For value in the array, multiply by the scalar
-        for i = 0 to matrix.Rows - 1 do
+        (*for i = 0 to matrix.Rows - 1 do
             for j = 0 to matrix.Cols - 1 do
-                result.Values[i,j] <- matrix.Values[i,j] * scalar
+                result.Values[i,j] <- matrix.Values[i,j] * scalar*)
+                
+        //Store back to matrix
+        result.SetValues(arr)
 
         //Return result
         result

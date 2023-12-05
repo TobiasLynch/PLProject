@@ -87,6 +87,13 @@ let addMatrices(manager: MatrixManager) : unit =
     | :? FormatException -> printfn "Please input a valid integer\n"
     | :? InvalidOperationException as ex -> printfn "%s\n" ex.Message
 
+
+/// <summary>
+/// Author: Tobias Lynch
+/// Description: This function handles the menu option for multiplying a matrix by a scalar, prompting for
+/// the matrix index and scalar and printing out the result.
+/// </summary>
+/// <param name="manager">The matrix manager.</param>
 let multMatrixByScalar(manager: MatrixManager) : unit =
     printf "Enter the matrix index:> "
 
