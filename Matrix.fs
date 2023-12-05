@@ -36,7 +36,11 @@ type Matrix(rows : int, cols : int) =
             result <- $"{result}|\n"
         result
 
-    //Private function to 
+    /// <summary>
+    /// Author: Tobias Lynch
+    /// Description: Converts matrix to an array.</summary>
+    /// <param name="unit"></param>
+    /// <returns>The matrix as a 1D array.</returns>
     member this.ToArray() =
         let arr: double array = Array.create (rows * cols) 0.0
         for i = 0 to rows - 1 do
