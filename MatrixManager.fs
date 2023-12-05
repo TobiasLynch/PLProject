@@ -72,3 +72,26 @@ type MatrixManager() =
 
         // add to list
         matrices <- Array.append matrices [|m|]
+
+
+    /// <summary>
+    /// Author: Tobias Lynch
+    /// Description: This function multiplies a given matrix by a given scalar and stores the result.
+    /// </summary>
+    /// <param name="id">The index of the matrix to be multiplied.</param>
+    /// <param name="scalar">The scalar to multiply by.</param>
+    /// <returns>The resulting matrix.</returns>
+    member this.ScalarMult(id : int, scalar : double): Matrix =
+
+        //Check matrix exists
+        if (Array.length matrices) <= id then
+            raise (System.InvalidOperationException "Cannot multiply the matrix as it does not exist")
+        
+        //Perform operation
+        let result: Matrix = MatrixCalculator.ScalarMult(matrices[id], scalar)
+
+        //Store result
+        matrices <- Array.append matrices [|result|]
+
+        //Return result
+        result

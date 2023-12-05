@@ -87,6 +87,23 @@ let addMatrices(manager: MatrixManager) : unit =
     | :? FormatException -> printfn "Please input a valid integer\n"
     | :? InvalidOperationException as ex -> printfn "%s\n" ex.Message
 
+let multMatrixByScalar(manager: MatrixManager) : unit =
+    printf "Enter the matrix index:> "
+
+    try
+        // get input
+        let id : int = System.Int32.Parse(Console.ReadLine().Trim())
+
+        printf "Enter the scalar value:> "
+
+        // get input
+        let scalar: double = System.Double.Parse(Console.ReadLine().Trim())
+
+        printfn "%s" (manager.ScalarMult(id, scalar).ToString())
+    with
+    | :? FormatException -> printfn "Please input a valid input\n"
+    | :? InvalidOperationException as ex -> printfn "%s\n" ex.Message
+
 
 [<EntryPoint>]
 let main args =
@@ -126,6 +143,7 @@ let main args =
             | 2 -> printMatrix(manager)
             | 3 -> manager.PrintMatrices()
             | 4 -> addMatrices(manager)
+            | 7 -> multMatrixByScalar(manager)
             | _ -> printfn "Please select a valid menu option.\n"
 
     0

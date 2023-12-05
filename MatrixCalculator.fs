@@ -24,3 +24,22 @@ type MatrixCalculator =
                 
         // return result
         result
+
+    /// <summary>
+    /// Author: Tobias Lynch
+    /// Description: This function multiplies a matrix by a scalar, returning the result.
+    /// </summary>
+    /// <param name="matrix">The matrix to multiply.</param>
+    /// <param name="scalar">The scalar to multiply by.</param>
+    /// <returns>The resulting matrix.</returns>
+    static member ScalarMult(matrix: Matrix, scalar: double): Matrix =
+        //Store result
+        let result: Matrix = new Matrix(matrix.Rows,matrix.Cols)
+        
+        //For value in the array, multiply by the scalar
+        for i = 0 to matrix.Rows - 1 do
+            for j = 0 to matrix.Cols - 1 do
+                result.Values[i,j] <- matrix.Values[i,j] * scalar
+
+        //Return result
+        result
